@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NXT Interactive – AI Agent</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #did-target {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- D-ID Agent target -->
+  <div id="did-target"></div>
+
+  <!-- D-ID Agent embed -->
+  <script type="module"
+    src="https://agent.d-id.com/v2/index.js"
+    data-mode="full"
+    data-client-key="Z29vZ2xlLW9hdXRoMnwxMDQyNTc4MzMwMzQxNjM5MDE1OTc6X3pLLXUzdjVtOE54TVN0dWswNGhj"
+    data-agent-id="v2_agt_-6mmEs_-"
+    data-name="did-agent"
+    data-monitor="true"
+    data-target-id="did-target">
+  </script>
+
+</body>
+</html>
