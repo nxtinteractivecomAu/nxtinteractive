@@ -2,37 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NXT Interactive – AI Agent</title>
+
+  <!-- Fullscreen-friendly on Android signage -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <title>NXT Interactive – D-ID Agent</title>
 
   <style>
     html, body {
       margin: 0;
+      padding: 0;
+      width: 100%;
       height: 100%;
-      background: #000;
       overflow: hidden;
+      background: #000;
     }
+
+    /* This is the container the D-ID script will render into */
     #did-target {
+      position: fixed;
+      inset: 0;
       width: 100vw;
       height: 100vh;
     }
+
+    /* First-tap fullscreen overlay */
+    #fs-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      padding: 24px;
+    }
   </style>
 </head>
-<body>
 
-  <!-- D-ID Agent target -->
+<body>
   <div id="did-target"></div>
 
-  <!-- D-ID Agent embed -->
-  <script type="module"
-    src="https://agent.d-id.com/v2/index.js"
-    data-mode="full"
-    data-client-key="Z29vZ2xlLW9hdXRoMnwxMDQyNTc4MzMwMzQxNjM5MDE1OTc6X3pLLXUzdjVtOE54TVN0dWswNGhj"
-    data-agent-id="v2_agt_-6mmEs_-"
-    data-name="did-agent"
-    data-monitor="true"
-    data-target-id="did-target">
+  <!-- Tap once to enter fullscreen (browsers require a user gesture) -->
+  <div id="fs-overlay">
+    Tap anywhere to start fullscreen
+  </div>
+
+  <script>
+    async function goFullscreen() {
+      const el = document.documentElement;
+      try {
+        if (el.requestFullscreen) await el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) await el.webkitRequestFullscreen();
+      } catch (e) {
+        // If fullscreen fails, we still continue and hide overlay
+      }
+      const ov = document.getElementById('fs-overlay');
+      if (ov) ov.remove();
+    }
+
+    document.getElementById('fs-overlay').addEventListener('click', goFullscreen, { once: true });
+    document.getElementById('fs-overlay').addEventListener('touchend', goFullscreen, { once: true });
   </script>
 
+  <!-- Your D-ID embed -->
+  <script type="module"
+      src="https://agent.d-id.com/v2/index.js"
+      data-mode="fabio"
+      data-client-key="Z29vZ2xlLW9hdXRoMnwxMDQyNTc4MzMwMzQxNjM5MDE1OTc6X3pLLXUzdjVtOE54TVN0dWswNGhj"
+      data-agent-id="v2_agt_-6mmEs_-"
+      data-name="did-agent"
+      data-monitor="true"
+      data-orientation="horizontal"
+      data-position="right"
+      data-target-id="did-target">
+  </script>
 </body>
 </html>
